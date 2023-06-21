@@ -32,7 +32,10 @@ URL:           https://github.com/mer-hybris/droid-system-sony-template
 rm -rf $RPM_BUILD_ROOT tmp
 mkdir -p $RPM_BUILD_ROOT/system/etc
 cp %{device}/system/build.prop $RPM_BUILD_ROOT/system/build.prop
-cp %{device}/system/etc/prop.default $RPM_BUILD_ROOT/system/etc/prop.default
+if [ -f %{device}/system/etc/prop.default ]; then
+    cp %{device}/system/etc/prop.default $RPM_BUILD_ROOT/system/etc/prop.default
+    echo "/system/etc/prop.default" >> tmp/extra_files
+fi
 mkdir -p $RPM_BUILD_ROOT/vendor/etc/vintf
 cp %{device}/vendor/build.prop $RPM_BUILD_ROOT/vendor/build.prop
 cp %{device}/vendor/etc/vintf/manifest.xml $RPM_BUILD_ROOT/vendor/etc/vintf/manifest.xml
@@ -48,6 +51,5 @@ fi
 %files -f tmp/extra_files
 %defattr(-,root,root,-)
 /system/build.prop
-/system/etc/prop.default
 /vendor/build.prop
 /vendor/etc/vintf/manifest.xml
